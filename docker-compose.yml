@@ -1,0 +1,38 @@
+version: '2'
+services:
+ web_apache: 
+  build:
+   context: .
+   dockerfile: Dockerfileweb
+  ports:
+   - "8000:80"
+  volumes:
+   - ./app:/var/www/html/app
+   - ./orangehrm:/var/www/html/
+  environment:
+   - ALLOW_OVERRIDE=true
+  tty: true
+  links:
+   - db
+   - phpmyadmin:myadmin
+   
+ db:
+  image: mysql:5.6
+  ports:
+   - "3306:3306"
+  volumes:
+    - ./mysql:/var/lib/mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: root
+   MYSQL_DATABASE: database
+   
+ phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  ports:
+   - "8080:80"
+  links:
+   - db
+  environment:
+   PMA_HOST: db
+     
+  

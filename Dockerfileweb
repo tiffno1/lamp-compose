@@ -1,0 +1,15 @@
+FROM centos:6.9
+
+RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+RUN rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+
+RUN yum install -y httpd vim-enhanced bash-completion unzip wget
+
+RUN yum install php56w php56w-gd php56w-json php56w-pdo php56w-common php56w-fpm php56w-mysql php56w-mbstring php56w-mcrypt php56w-xml -y
+
+ENV ALLOW_OVERRIDE=true
+
+EXPOSE 80
+
+CMD /etc/init.d/httpd restart && \
+	/bin/bash
